@@ -1,24 +1,10 @@
-import React from "react"
+import React, { useState } from "react"
 import { useNavigate, useLoaderData } from "react-router-dom"
 import { loginUser } from "../api"
 
 export function loader({ request }) {
     return new URL(request.url).searchParams.get("message")
 }
-
-/**
- * Challenge: hook up our form so it (halfway) works.
- * 
- * 1. Pull in the `loginUser` function from the api.js file
- * 2. Call loginUser when the form is submitted and console.log 
- *    the data that comes back. Use "b@b.com" as the username and
- *    "p123" as the password.
- * 
- *    NOTE: loginUser returns a promise, so you'll need
- *    a .then(data => {...}) to access the data, or use
- *    a separate aync function defined inside handleSubmit
- * 3. TBA
- */
 
 export default function Login() {
     const [loginFormData, setLoginFormData] = React.useState(
@@ -27,12 +13,23 @@ export default function Login() {
             password: ""
         }
     )
+    const [status, setStatus] = useState("idle")
+    const [error, setError] = useState(null)
     const message = useLoaderData()
 
     async function handleSubmit(e) {
         e.preventDefault()
+        setStatus("submitting")
+        setError(null)
         loginUser(loginFormData)
-            .then(data => console.log(data))
+            .then(data => {
+                console.log(data)
+                setStatus("idle")
+            })
+            .catch(err => {
+                setError(err.message)
+                setStatus("idle")
+            })
     }
 
     function handleChange(e) {
@@ -63,7 +60,9 @@ export default function Login() {
                     placeholder="Password"
                     value={loginFormData.password}
                 />
-                <button>Log in</button>
+                <button type="submit" disabled={status === "submitting"}>
+                    {status === "submitting" ? "Submitting..." : "Submit"}
+                </button>
             </form>
         </div>
     )
