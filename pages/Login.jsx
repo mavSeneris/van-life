@@ -27,9 +27,9 @@ export default function Login() {
                 setStatus("idle")
             })
             .catch(err => {
-                setError(err.message)
-                setStatus("idle")
+                setError(err)
             })
+            .finally(() => setStatus("idle"))
     }
 
     function handleChange(e) {
@@ -44,7 +44,7 @@ export default function Login() {
         <div className="login-container">
             <h1>Sign in to your account</h1>
             {message && <h3 className="red">{message}</h3>}
-
+            {error && <h3 className="red">{error.message}</h3>}
             <form onSubmit={handleSubmit} className="login-form">
                 <input
                     name="email"
