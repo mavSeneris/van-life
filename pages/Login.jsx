@@ -26,9 +26,7 @@ export default function Login() {
                 console.log(data)
                 setStatus("idle")
             })
-            .catch(err => {
-                setError(err)
-            })
+            .catch(err => { setError(err) })
             .finally(() => setStatus("idle"))
     }
 
