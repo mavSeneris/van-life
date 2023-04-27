@@ -16,6 +16,7 @@ export default function Login() {
     const [status, setStatus] = useState("idle")
     const [error, setError] = useState(null)
     const message = useLoaderData()
+    const navigate = useNavigate()
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -23,7 +24,7 @@ export default function Login() {
         setError(null)
         loginUser(loginFormData)
             .then(data => {
-                console.log(data)
+                navigate("/host")
                 setStatus("idle")
             })
             .catch(err => { setError(err) })
