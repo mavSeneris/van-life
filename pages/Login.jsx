@@ -28,7 +28,6 @@ export async function action({ request }) {
 
 export default function Login() {
     const [status, setStatus] = useState("idle")
-    const [error, setError] = useState(null)
     const errorMessage = useActionData()
     const message = useLoaderData()
     const navigate = useNavigate()
