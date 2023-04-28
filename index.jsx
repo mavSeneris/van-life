@@ -5,7 +5,6 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
-  Link
 } from "react-router-dom"
 import Home from "./pages/Home"
 import About from "./pages/About"
@@ -20,7 +19,7 @@ import HostVanInfo from "./pages/Host/HostVanInfo"
 import HostVanPricing from "./pages/Host/HostVanPricing"
 import HostVanPhotos from "./pages/Host/HostVanPhotos"
 import NotFound from "./pages/NotFound"
-import Login, {loader as loginLoader} from "./pages/Login"
+import Login, { loader as loginLoader, action as loginAction } from "./pages/Login"
 import Layout from "./components/Layout"
 import HostLayout from "./components/HostLayout"
 import Error from "./components/Error"
@@ -36,6 +35,7 @@ const router = createBrowserRouter(createRoutesFromElements(
       path="login"
       element={<Login />}
       loader={loginLoader}
+      action={loginAction}
     />
     <Route
       path="vans"
@@ -48,11 +48,7 @@ const router = createBrowserRouter(createRoutesFromElements(
       element={<VanDetail />} 
       loader={vanDetailLoader}
     />
-    {/**
-     * Challenge:
-     * Include the `await requireAuth()` everywhere it's needed!
-     */}
-
+    
     <Route path="host" element={<HostLayout />}>
       <Route
         index

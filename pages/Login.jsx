@@ -1,18 +1,18 @@
 import React, { useState } from "react"
-import { useNavigate, useLoaderData } from "react-router-dom"
+import { useNavigate, useLoaderData, Form } from "react-router-dom"
 import { loginUser } from "../api"
 
 export function loader({ request }) {
     return new URL(request.url).searchParams.get("message")
 }
 
+export async function action() {
+    console.log("Action function")
+    return null
+}
+
 export default function Login() {
-    const [loginFormData, setLoginFormData] = React.useState(
-        {
-            email: "",
-            password: ""
-        }
-    )
+    const [loginFormData, setLoginFormData] = React.useState({ email: "", password: "" })
     const [status, setStatus] = useState("idle")
     const [error, setError] = useState(null)
     const message = useLoaderData()
@@ -24,7 +24,7 @@ export default function Login() {
         setError(null)
         loginUser(loginFormData)
             .then(data => {
-                navigate("/host")
+                navigate("/host", { replace: true })
                 setStatus("idle")
             })
             .catch(err => { setError(err) })
@@ -44,7 +44,7 @@ export default function Login() {
             <h1>Sign in to your account</h1>
             {message && <h3 className="red">{message}</h3>}
             {error && <h3 className="red">{error.message}</h3>}
-            <form onSubmit={handleSubmit} className="login-form">
+            <Form method="post" className="login-form">
                 <input
                     name="email"
                     onChange={handleChange}
@@ -62,7 +62,7 @@ export default function Login() {
                 <button type="submit" disabled={status === "submitting"}>
                     {status === "submitting" ? "Submitting..." : "Submit"}
                 </button>
-            </form>
+            </Form>
         </div>
     )
 
