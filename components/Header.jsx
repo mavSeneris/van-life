@@ -11,6 +11,7 @@ export default function Header() {
 
     function fakeLogOut() {
         localStorage.removeItem("loggedin")
+        console.log("firing")
     }
 
     return (

@@ -1,10 +1,10 @@
-import React, { useState } from "react"
+import React from "react"
 import {
-    useNavigate,
     useLoaderData,
     Form,
     redirect,
-    useActionData
+    useActionData,
+    useNavigation
 } from "react-router-dom"
 import { loginUser } from "../api"
 
@@ -27,28 +27,9 @@ export async function action({ request }) {
 }
 
 export default function Login() {
-    const [status, setStatus] = useState("idle")
     const errorMessage = useActionData()
     const message = useLoaderData()
-    const navigate = useNavigate()
-
-    async function handleSubmit(e) {
-        e.preventDefault()
-        setStatus("submitting")
-        loginUser(loginFormData)
-            .then(data => {
-                navigate("/host", { replace: true })
-            })
-            .finally(() => setStatus("idle"))
-    }
-
-    function handleChange(e) {
-        const { name, value } = e.target
-        setLoginFormData(prev => ({
-            ...prev,
-            [name]: value
-        }))
-    }
+    const navigation = useNavigation()
 
     return (
         <div className="login-container">
@@ -72,8 +53,8 @@ export default function Login() {
                     type="password"
                     placeholder="Password"
                 />
-                <button type="submit" disabled={status === "submitting"}>
-                    {status === "submitting" ? "Submitting..." : "Submit"}
+                <button type="submit" disabled={navigation.state === "submitting"}>
+                    {navigation.state === "submitting" ? "Logging in..." : "Submit"}
                 </button>
             </Form>
 
