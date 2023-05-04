@@ -24,7 +24,6 @@ export async function action({ request }) {
     } catch (err) {
         return err.message
     }
-
 }
 
 export default function Login() {
