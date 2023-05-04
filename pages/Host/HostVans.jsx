@@ -1,4 +1,4 @@
-import React, { Suspense } from "react"
+import React from "react"
 import { Link, useLoaderData, defer, Await } from "react-router-dom"
 import { getHostVans } from "../../api"
 import { requireAuth } from "../../utils"
@@ -11,8 +11,7 @@ export async function loader({ request }) {
 export default function HostVans() {
     const dataPromise = useLoaderData()
 
-    function renderHostVans(vans) {
-        console.log(vans)
+    function renderVanElements(vans) {
         const hostVansEls = vans.map(van => (
             <Link
                 to={van.id}
@@ -28,22 +27,24 @@ export default function HostVans() {
                 </div>
             </Link>
         ))
-        return hostVansEls
+        return (
+            <div className="host-vans-list">
+                <section>
+                    {hostVansEls}
+                </section>
+            </div>
+        )
     }
+
 
     return (
         <section>
             <h1 className="host-vans-title">Your listed vans</h1>
-            <div className="host-vans-list">
-                <section>
-                    <Suspense>
-                        <Await resolve={dataPromise.vans}>
-                            {renderHostVans}
-                            
-                        </Await>
-                    </Suspense>
-                </section>
-            </div>
+            <React.Suspense fallback={<h2>Loading vans...</h2>}>
+                <Await resolve={dataPromise.vans}>
+                    {renderVanElements}
+                </Await>
+            </React.Suspense>
         </section>
     )
 }
