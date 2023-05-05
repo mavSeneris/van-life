@@ -34,7 +34,9 @@ export default function VanDetail() {
                 to={`..${search}`}
                 relative="path"
                 className="back-button"
-            >&larr; <span>Back to {type} vans</span></Link>
+            >&larr;
+                <span>Back to {type} vans</span>
+            </Link>
 
             <Suspense fallback={<h4>Loading van...</h4>}>
                 <Await
