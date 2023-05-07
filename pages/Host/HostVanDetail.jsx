@@ -76,7 +76,7 @@ export default function HostVanDetail() {
                 <span>Back to all vans</span>
             </Link>
             <Suspense
-                fallback={<h4>Loading van..,</h4>}
+                fallback={<h4>Loading van...</h4>}
             >
                 <Await resolve={dataPromise.currentVan}>
                     {renderVanDetailEls}
